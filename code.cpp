@@ -1,4 +1,3 @@
-
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -64,6 +63,40 @@ void deleteVal(node* &head, int val){
   }
 }
 
+node* insert_node_at_nth_pos(node *head, int data, int position)
+{   
+    /* current node */
+    node* cur = head;
+
+    /* initialize new node to be inserted at given position */
+    node* nth = new node(data);
+
+    if(position == 0){
+        /* insert new node at head */
+        head = nth;
+        head->next = cur;
+        return head;
+    }else{
+        /* traverse list */
+        int count = 0;            
+        node* pre = new node(0);
+
+        while(count != position){
+            if(count == (position - 1)){
+                pre = cur;
+            }
+            cur = cur->next;            
+            count++;
+        }
+
+        /* insert new node here */
+        pre->next = nth;
+        nth->next = cur;
+
+        return head;
+    }    
+}
+
 
 bool search(node* head, int key){
   while(head!=NULL){
@@ -86,7 +119,10 @@ void display(node* head){
 
 int main(){
   node* head=NULL;
-  deleteAtHead(head);
+  insertAtHead(head,26);
+  //deleteAtHead(head);
+
+  head = insert_node_at_nth_pos(head,69,1);
   display(head);
   insertAtTail(head,1);
   deleteAtHead(head);
@@ -95,3 +131,4 @@ int main(){
 
   return 0;
 }
+
