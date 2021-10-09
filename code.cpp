@@ -13,6 +13,12 @@ class node{
     }
 };
 
+void insertAtHead(node* &head, int val){
+  node* nw=new node(val);
+  nw->next=head;
+  head=nw;
+}
+
 void insertAtTail(node* &head, int val){
   node* nw=new node(val);
   if(head==NULL){
