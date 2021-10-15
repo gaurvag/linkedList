@@ -1,0 +1,144 @@
+///Reverse K Nodes of a Linked List.
+#include<iostream>
+using namespace std;
+class Node
+{
+    public:
+
+    int Data;
+    Node* Next;
+
+    Node(int value)
+    {
+       Data=value;
+       Next=NULL;
+    }
+};
+void InsertAtTail(Node* &head,int val)  ///here we take by reference and not by value because here we have to modify linked list.
+{
+   Node* n = new Node(val);
+
+   if(head==NULL) 
+   {
+       head=n;
+       return;
+   }
+   Node* temp =head;
+   while(temp->Next!=NULL)
+   {
+       temp=temp->Next;
+   }
+
+   temp->Next=n;
+
+}
+void InsertAtHead(Node* &head, int val)
+{
+    Node* n =new Node(val);
+    n->Next=head;
+    head=n;
+}
+
+void display(Node* head)
+{
+    Node* temp=head;
+    while(temp!=NULL)
+    {
+        cout<<temp->Data<<"->";
+        temp=temp->Next;
+    }
+    cout<<"NULL"<<endl;
+}
+
+
+bool search(Node* head,int key)
+{
+    Node *temp =head;
+    while(temp!=NULL)
+    {
+        if(temp->Data==key)
+        {
+            return true;
+        }
+        temp=temp->Next;
+    }
+    return false;
+
+
+}
+
+void DeleteAtHead(Node* &head)   ///To delete first node
+{
+    Node* toDelete=head;
+    head=head->Next;
+
+    delete toDelete;
+}
+
+void DeleteNode(Node* &head,int Value)
+{
+    if(head==NULL) ///corner cases
+    {
+        return;
+    }
+    if(head->Next==NULL)   
+    {
+        DeleteAtHead(head);
+    }
+   
+    Node* temp=head;
+    while(temp->Next->Data!=Value)  
+    {
+        temp=temp->Next;
+
+    } 
+    Node* todelete =temp->Next; 
+    temp->Next=temp->Next->Next; 
+    delete todelete;
+}
+
+///Here we are reversing k nodes of a linked list.
+Node* ReverseKNode(Node* &head,int k)
+{
+    Node* Prevptr=NULL;
+    Node* Currptr=head;
+    Node* Nextptr;
+
+    int Count=0;
+
+    while(Currptr!=NULL && Count<k)  
+    {
+        Nextptr=Currptr->Next;
+        Currptr->Next=Prevptr;    
+
+        Prevptr=Currptr;   
+        Currptr=Nextptr;
+        Count++;
+    }
+
+    if(Nextptr!=NULL)
+    {
+        head->Next=ReverseKNode(Nextptr,k); 
+    }
+
+    return Prevptr;
+
+}
+
+int main()
+{
+   Node* head=NULL;
+   InsertAtTail(head,1);
+   InsertAtTail(head,2);
+   InsertAtTail(head,3);
+   InsertAtTail(head,4);
+   display(head);
+   InsertAtHead(head,5);
+   InsertAtHead(head,9);
+
+   display(head);
+
+   int k=3;
+   Node* Newhead =ReverseKNode(head,k);
+   display(Newhead);
+}
